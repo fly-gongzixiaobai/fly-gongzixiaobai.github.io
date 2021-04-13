@@ -14,10 +14,11 @@
 <meta property="og:description" content="显示在首页">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2021-04-13T07:38:39.000Z">
-<meta property="article:modified_time" content="2021-04-13T09:13:46.452Z">
+<meta property="article:modified_time" content="2021-04-13T09:18:35.117Z">
 <meta property="article:author" content="公子小白">
 <meta property="article:tag" content="Android">
 <meta property="article:tag" content="Java">
+<meta property="article:tag" content="RecyclerView">
 <meta name="twitter:card" content="summary">
   
     <link rel="alternate" href="/atom.xml" title="公子小白的博客" type="application/atom+xml">
@@ -67,12 +68,12 @@
       </nav>
       <nav id="sub-nav">
         
-          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS"></a>
         
-        <a id="nav-search-btn" class="nav-icon" title="Suche"></a>
+        <a id="nav-search-btn" class="nav-icon" title="Buscar"></a>
       </nav>
       <div id="search-form-wrap">
-        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Suche"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://example.com"></form>
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Buscar"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://example.com"></form>
       </div>
     </div>
   </div>
@@ -106,22 +107,22 @@
     <div class="e-content article-entry" itemprop="articleBody">
       
         <h2 id="使用方法"><a href="#使用方法" class="headerlink" title="使用方法"></a>使用方法</h2><h3 id="使用组件"><a href="#使用组件" class="headerlink" title="使用组件"></a>使用组件</h3><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&lt;androidx.recyclerview.widget.RecyclerView</span><br><span class="line">    android:id=&quot;@+id/notified_itemNotify&quot;</span><br><span class="line">    android:layout_width=&quot;match_parent&quot;</span><br><span class="line">    android:layout_height=&quot;wrap_content&quot;</span><br><span class="line">    android:padding=&quot;10dp&quot;</span><br><span class="line">    android:layout_margin=&quot;10dp&quot;&gt;</span><br><span class="line"><span class="tag">&lt;/<span class="name">androidx.recyclerview.widget.RecyclerView</span>&gt;</span></span><br></pre></td></tr></table></figure>
-<h3 id="Activity中"><a href="#Activity中" class="headerlink" title="Activity中"></a>Activity中</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">RecyclerView recyclerViewNotify; <span class="comment">//定义组件，找到view ID</span></span><br></pre></td></tr></table></figure>
+<h3 id="Activity中"><a href="#Activity中" class="headerlink" title="Activity中"></a>Activity中</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">RecyclerView recyclerViewNotify; <span class="comment">//定义组件，找到view ID</span></span><br><span class="line"></span><br><span class="line">LinearLayoutManager manager = <span class="keyword">new</span> LinearLayoutManager(getContext());</span><br><span class="line">manager.setOrientation(LinearLayoutManager.VERTICAL);</span><br><span class="line">notifyAdapter = <span class="keyword">new</span> NotifyAdapter(getContext(),notifyBeans);</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>需要指定展示格式manager</p>
 <h3 id="新建Adapter"><a href="#新建Adapter" class="headerlink" title="新建Adapter"></a>新建Adapter</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Adapter</span> <span class="keyword">implements</span> <span class="title">RecyclerView</span>.<span class="title">Adapter</span>&lt;<span class="title">Adapter</span>.<span class="title">ViewHolder</span>&gt; </span>&#123;</span><br><span class="line">    <span class="meta">@NonNull</span></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> ViewHolder <span class="title">onCreateViewHolder</span><span class="params">(<span class="meta">@NonNull</span> ViewGroup parent, <span class="keyword">int</span> viewType)</span> </span>&#123;</span><br><span class="line">        inflater = LayoutInflater.from(context).inflate(R.layout.item_notify,parent,<span class="keyword">false</span>);</span><br><span class="line">        ViewHolder myViewHolder = <span class="keyword">new</span> ViewHolder(inflater);</span><br><span class="line">        <span class="keyword">return</span> myViewHolder;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onBindViewHolder</span><span class="params">(<span class="meta">@NonNull</span> ViewHolder holder, <span class="keyword">int</span> position)</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">getItemCount</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ViewHolder</span> </span>&#123;</span><br><span class="line">        <span class="comment">//声明组件</span></span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="title">ViewHolder</span><span class="params">(<span class="meta">@NonNull</span> View itemView)</span> </span>&#123;</span><br><span class="line">            <span class="keyword">super</span>(itemView);   </span><br><span class="line">            <span class="comment">//将组件绑定到声明的变量上    </span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<p>1.函数onCreateViewHolder<br>    绑定xml页面</p>
-<p>2.函数onBindViewHolder<br>    在改函数中将控件绑定数据</p>
-<p>3.函数getItemCount<br>    获得列表内容大小数量
-    </p>
+<p>1.函数onCreateViewHolder<br>绑定xml页面</p>
+<p>2.函数onBindViewHolder<br>在改函数中将控件绑定数据</p>
+<p>3.函数getItemCount<br>获得列表内容大小数量</p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2021/04/13/Android-RecyclerView%E7%9A%84%E4%BD%BF%E7%94%A8/" data-id="cknfpr74x0000h8u3933787h2" data-title="Android RecyclerView的使用" class="article-share-link">Teilen</a>
+      <a data-url="http://example.com/2021/04/13/Android-RecyclerView%E7%9A%84%E4%BD%BF%E7%94%A8/" data-id="cknfpr74x0000h8u3933787h2" data-title="Android RecyclerView的使用" class="article-share-link">Compartir</a>
       
       
       
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Android/" rel="tag">Android</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Java/" rel="tag">Java</a></li></ul>
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Android/" rel="tag">Android</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Java/" rel="tag">Java</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/RecyclerView/" rel="tag">RecyclerView</a></li></ul>
 
     </footer>
   </div>
@@ -131,7 +132,7 @@
   
   
     <a href="/2021/04/13/my-new-poast/" id="article-nav-older" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">Älter</strong>
+      <strong class="article-nav-caption">Viejo</strong>
       <div class="article-nav-title">my new poast</div>
     </a>
   
@@ -147,7 +148,7 @@
   
     
   <div class="widget-wrap">
-    <h3 class="widget-title">Kategorien</h3>
+    <h3 class="widget-title">Categorías</h3>
     <div class="widget">
       <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/android/">android</a></li></ul>
     </div>
@@ -159,7 +160,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Tags</h3>
     <div class="widget">
-      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Android/" rel="tag">Android</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Java/" rel="tag">Java</a></li></ul>
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Android/" rel="tag">Android</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Java/" rel="tag">Java</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/RecyclerView/" rel="tag">RecyclerView</a></li></ul>
     </div>
   </div>
 
@@ -167,16 +168,16 @@
   
     
   <div class="widget-wrap">
-    <h3 class="widget-title">Tag Cloud</h3>
+    <h3 class="widget-title">Nube de Tags</h3>
     <div class="widget tagcloud">
-      <a href="/tags/Android/" style="font-size: 10px;">Android</a> <a href="/tags/Java/" style="font-size: 10px;">Java</a>
+      <a href="/tags/Android/" style="font-size: 10px;">Android</a> <a href="/tags/Java/" style="font-size: 10px;">Java</a> <a href="/tags/RecyclerView/" style="font-size: 10px;">RecyclerView</a>
     </div>
   </div>
 
   
     
   <div class="widget-wrap">
-    <h3 class="widget-title">Archiv</h3>
+    <h3 class="widget-title">Archivos</h3>
     <div class="widget">
       <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/04/">四月 2021</a></li></ul>
     </div>
@@ -186,7 +187,7 @@
   
     
   <div class="widget-wrap">
-    <h3 class="widget-title">letzter Beitrag</h3>
+    <h3 class="widget-title">Posts recientes</h3>
     <div class="widget">
       <ul>
         
@@ -216,7 +217,7 @@
     <div id="footer-info" class="inner">
       
       &copy; 2021 公子小白<br>
-      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+      Construido por <a href="https://hexo.io/" target="_blank">Hexo</a>
     </div>
   </div>
 </footer>
